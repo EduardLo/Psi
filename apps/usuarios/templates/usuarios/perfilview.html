@@ -1,0 +1,134 @@
+{% extends "apps/base.html" %}
+
+{% block title %} Lista de Usuarios {% endblock %}
+{% block saludo %}
+	<h2 style="font-weight: bold;">
+				Perfil de: {{ user.first_name }} {{ user.last_name }}<br>
+	</h2>
+	<h4 style="font-weight: bold;">
+		<P align="left" >
+			En esta seccion podrá editar su perfil
+		</P>
+	</h4>
+{% endblock %}
+{% block content %}
+	{% if user.is_authenticated %}
+	<section>
+		
+	</section>
+		<div style="position: absolute; left: 30%; margin-left: -300px; display: inline-block; background-color: white; border-style: solid; width: 90%;">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#perfil" data-toggle="tab">Perfil</a>
+				</li>
+
+			</ul>
+			<div class="tab-content">
+				<!--Panel de perfil-->
+				<div class="tab-pane fade in active" id="perfil">
+					<h3 class="mgbt-xs-1 mgtp-1 font-semibold">
+						<i class="fa fa-user"></i>
+						Sobre Mi
+					</h3>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="row mgbt-xs-0">
+								<label class="col-xs-5 control-label">Nombre(s):</label>
+								<div class="col-xs-5 controls">{{ usuario.first_name }}</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="row mgbt-xs-0">
+								<label class="col-xs-5 control-label">Apellido(s):</label>
+								<div class="col-xs-5 controls">{{ usuario.last_name }}</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="row mgbt-xs-0">
+								<label class="col-xs-5 control-label">Email:</label>
+								<div class="col-xs-5 controls">{{ usuario.email }}</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="row mgbt-xs-0">
+								<label class="col-xs-5 control-label">Telefono:</label>
+								<div class="col-xs-5 controls">{{ perfil.telefonoMovil }}</div>
+							</div>
+						</div>
+					</div>
+					<!--<hr style="border-style: solid; border-width: 1px; border-color: gray;">
+					Biografia
+					<div class="row">
+						<div class="col-sm-7 mgbt-xs-10">
+							<h3 class="mgbt-xs-15 font-semibold">
+								<i class="fa fa-file-text"></i>
+								Biografía
+							</h3>
+							<div>
+								<p>{{perfil.bio}}</p>
+							</div>
+						</div>
+					</div-->
+					<hr style="border-style: solid; border-width: 1px; border-color: gray;">
+					<!--Intereses-->
+					<div class="row">
+						<div class="col-sm-3 mgbt-xs-5">
+							<h3 class="mgbt-xs-5 font-semibold">
+								<i class="fa fa-star"></i>
+								Intereses
+							</h3>
+							<div>
+								<p>{{perfil.inter}}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a href="{% url 'usuarios:user_profile_detail'  user.id  %}" class="w3-padding"><i class="fa fa-eye fa-fw"></i>Editar</a>
+		</div>
+	{% else %}
+		<h1 class ="text-center">Porfavor inicie sesion para poder acceder a este apartado</h1>
+	{% endif %}
+{% endblock %}
+		<!--
+			<div>
+				<table>
+					<thead>
+						<th>User Name</th>
+						<th>Nombre</th>
+						<th>Correo</th>
+						<th>telefono</th>
+					</thead>
+					<tbody>
+							<tr>
+								<td>{{ usuario.username }}</td>
+								<td>{{ usuario.first_name }}</td>
+								<td>{{ usuario.email }}</td>
+								<td>{{ perfil.telefonoCasa }}</td>
+							</tr>
+					</tbody>
+				</table>
+			</div>
+		-->
+<!--
+	<table>
+					<tbody>
+						<tr>
+							<td colspan="4">Biografía: </td>
+							<td></td>
+							<td>{{perfil.bio}}</td>
+						</tr>
+						<tr>
+							<td colspan="4">Me interesas:</td>
+							<td></td>
+							<td>{{ perfil.inter }}</td>
+						</tr>
+					</tbody>
+	</table>
+				<label> Nombre de Usuario: </label> <label>{{ usuario.username }}</label>
+				<label> Nombre completo:</label><label>{{usuario.first_name}}</label>
+				<label> Correo electronico:</label><label>{{usuario.email}}</label>
+				<label> Miembro desde:</label><label>{{usuario.date_joined|date}}</label>
+				<label>Imagen</label><img src="{{ perfil.image.url }}" width="250" height="250">
+				<label>Biografia</label><label>{{perfil.bio}}</label>
+				<label>Intereses</label><label>{{perfil.inter}}</label>
+-->

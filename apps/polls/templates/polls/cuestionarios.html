@@ -1,0 +1,20 @@
+{% extends "apps/base.html" %}
+{% load static %}
+{% block content %} 
+	{% if cuestionarios_list %}
+		<form method="post" name="form1"> 
+		{% csrf_token %}
+			<table width="100%" border="0" cellpadding="3" cellspacing="0">
+				<tbody>
+					{% for cuestionario in cuestionarios_list %}
+						<tr>
+							<td colspan="2"><a href="{% url 'polls:detail' cuestionario.id %}">{{ cuestionario.nombre_test }}</a></td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</form>
+	{% else %}
+		<p>Nopo</p>
+	{% endif %}
+{% endblock %}

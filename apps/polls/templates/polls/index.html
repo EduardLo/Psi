@@ -1,0 +1,190 @@
+{% extends "apps/base.html" %}
+{% load staticfiles %}
+{% block saludo %}
+		<h4>
+			<P align="left" style="font-weight: bold;">
+				Te invitamos a contestar el test de ansiedad en adultos, el cual consta de 21 reactivos.<br>
+			</P>
+			<p align="left" style="font-weight: bold;">
+				Esto es un cuestionario; en él hay grupos de afirmaciones; leerá uno de estos grupos. <br>Después elija la afirmación en ese grupo que describa mejor como se ha sentido <br>
+				en la ULTIMA SEMANA incluyendo HOY.<br>
+			</p>
+		</h4>
+{% endblock %}
+
+{% block content %}
+	{% if user.is_authenticated %}
+		<!-- Es USUARIO SI ESTA IDENTIFICADO -->
+		{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+		{% if test_id %}
+		{% if question_list %}
+			<div>
+			<form method="post" name="form1" id="preguntasForm" action="{% url 'polls:rest' test_id %}">
+				<input type="hidden" name="total" id="total_test" value="0">
+				<input type="hidden" name="usuario" id="usuario" value="{{ user.username }}">
+				{% csrf_token %}
+				<div style="position: absolute; left:50%; margin-left: -350px; display: inline-block; background-color: white; border-style: solid;">
+					<table width="100%" border="0" cellpadding="3" cellspacing="0">
+						<tbody>
+							{% for preguntas in question_list %}
+								<tr>
+									<input type="hidden" name="result" value="0" id="result_{{ preguntas.id }}">
+									<td colspan="2">{{ preguntas.question_text }}</td>
+								</tr>
+								{% for choice in preguntas.choice_set.all %}
+									<tr>
+										<td>
+											<input type="radio" name="choice_{{preguntas.id}}" id="choice{{ forloop.counter }}{{ preguntas.id }}" value="{{ choice.value }}" onclick="myEvaluacion(value,{{preguntas.id}})" />
+										</td>
+										<td>
+											<label for="choice{{ forloop.counter }}{{ preguntas.id }}">{{ choice.choice_text }}</label><br/>
+										</td>
+									</tr>
+								{% endfor %}
+							{% endfor %}
+							<tr>
+								<td colspan="2"></td>
+							</tr>
+							<tr>
+								<td colspan="2" align="center">
+									<input type="submit" name="enviar" value="Solve" form ="preguntasForm"onclick="myResultado({{ question_list.count }})">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</form>
+			</div>
+		{% else %}
+			<p>Nopo</p>
+		{% endif %}
+		{% else %}
+			<p>nopo wey</p>
+		{% endif %}
+	{% else %}
+		<!--CONTESTA EL TEST UN INVITADO -->
+		{% if test_id %}
+			{% if question_list %}
+			<div>
+				<form method="POST" name="form1" id="preguntasForm" action="{% url 'polls:ultimoGuest' test_id %}">
+					<div style="position: absolute; left:50%; margin-left: -350px; display: inline-block; background-color: white; border-style: solid;">
+						<input type="hidden" name="total" id="total_test" value="0">
+						<input type="hidden" name="usuario" id="usuario" value="invitado">
+						<input type="hidden" name="telefono" id="telefono" value="">
+						<input type="hidden" name="direccion" id="direccion" value="">
+						<input type="hidden" name="sexo" id="sexo" value="">
+						<input type="hidden" name="edad" id="edad" value="">
+						<input type="hidden" name="correo" id="correo" value="">
+						{% csrf_token %}
+						<table width="100%" border="0" cellpadding="3" cellspacing="0">
+							<tbody>
+								{% for preguntas in question_list %}
+									<tr>
+										<input type="hidden" name="result" value="0" id="result_{{ preguntas.id }}">
+										<td colspan="2"><label style="font-weight: bold;">{{ preguntas.question_text }})</label></td>
+									</tr>
+									{% for choice in preguntas.choice_set.all %}
+										<tr >
+											<td></td>
+											<td></td>
+											<td>
+												<input type="radio" name="choice_{{preguntas.id}}" id="choice{{ forloop.counter }}{{ preguntas.id }}" value="{{ choice.value }}" onclick="myEvaluacion(value,{{preguntas.id}})" />
+											</td>
+											<td>
+												<label for="choice{{ forloop.counter }}{{ preguntas.id }}">{{ choice.choice_text }}</label><br/>
+											</td>
+										</tr>
+									{% endfor %}
+								{% endfor %}
+								<tr>
+									<td colspan="2"></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td colspan="2" align="center">
+										<!--input type="submit" name="enviar" value="Solve" form ="preguntasForm"onclick="myResultado({{ question_list.count }})"-->
+
+										<a class="btn text-muted text-center btn-success" data-popup-open="popup-1" href="#">Resolver</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<!--POP UP-->
+							<div class="popup" data-popup="popup-1">
+								<div class="popup-inner">
+									<h4 style="font-weight: bold;">TEST DE ANSIEDAD EN ADULTOS</h4>
+									<div>
+										<p style="font-weight: bold;">
+											Por razones profesionales requerimos sus datos para darle el resultado del test:
+										</p>
+									</div>
+									<p style="margin: 20px;">
+										<div class="row">
+											<i class="fa fa-user fa-fw"></i>
+											<input style="border: 2px solid #c8c8c8;" type="text" id="idnombreGuest" name="idnombreGuest" placeholder="nombre completo" size="43">
+										</div>
+									</p>
+									<p style="margin: 20px;"">
+										<div class="row">
+											<i class="fa fa-calendar fa-fw"></i>
+											<input style="border: 2px solid #c8c8c8;" type="text" id="idedad" name="idedad" placeholder="edad" size="43">
+										</div>
+									</p>
+									<p style="margin: 20px;"">
+										<div class="row">
+											<i class="fa fa-male fa-fw"></i><i class="fa fa-female fa-fw"></i>
+											<input type="radio" name="genero" id="idmale">Hombre
+											/
+											<input type="radio" name="genero" id="idfemale">Mujer
+										</div>
+									</p>
+									<p style="margin: 20px;"">
+										<div class="row">
+											<i class="fa fa-phone fa-fw"></i>
+											<input style="border: 2px solid #c8c8c8;" type="text" id="idtelefono" name="idtelefono" placeholder="telefono" size="43">
+										</div>
+									</p>
+									<p style="margin: 20px;"">
+										<div class="row">
+											<i class="fa fa-building fa-fw"></i>
+											<input style="border: 2px solid #c8c8c8;" type="text" id="iddireccion" name="iddireccion" placeholder="Pais,ciudad, direccion" size="43">
+										</div>
+									</p>
+									<div>
+										<p style="font-weight: bold;">
+											INGRESE UNA DIRECCION DE CORREO VALIDA PARA RECBIR LA RESPUSTA AL TEST POR CORREO ELECTRONICO.
+										</p>
+									</div>
+									<p style="margin: 20px;"">
+										<div class="row">
+											<i class="fa fa-envelope fa-fw"></i>
+											<input style="border: 2px solid #c8c8c8;" type="text" id="idmail" name="idmail" placeholder="correo electronico" size="43">
+										</div>
+									</p>
+
+									<div class="row">
+										<p>
+											<button   class="btn text-muted text-center btn-success" type="submit" name="enviar" form ="preguntasForm" onclick="myResultadoGuest({{ question_list.count }}, idnombreGuest.value, idmail.value, idedad.value,idmale.checked, idfemale.checked, iddireccion.value,idtelefono.value)">Enviar
+											</button>
+										
+										
+											<button style="float: right;" data-popup-close="popup-1" class="btn text-muted text-center btn-danger" href="#">Cancel</button>
+										</p>
+									</div>
+									<a class="popup-close" data-popup-close="popup-1" href="#">x</a>
+								</div>					
+							</div>
+						<!--Fin POP UP-->
+					</div>
+				</form>
+				</div>
+			{% else %}
+				<p>Nopo</p>
+			{% endif %}
+		{% else %}
+			<p>nopo wey</p>
+		{% endif %}
+	{% endif %}
+	
+{% endblock %}

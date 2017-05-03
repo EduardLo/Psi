@@ -1,0 +1,61 @@
+{% extends "apps/base.html" %}
+{% load staticfiles %}
+{% block title %} Lista de Usuarios {% endblock %}
+{% block saludo %}
+	<h4 style="font-weight: bold;">
+		<P align="left" >
+			A continuacion se muestra una relacion de pacientes que ya han contestado el Test de "Inventgario de Depresion de Beck"
+		</P>
+	</h4>
+{% endblock %}
+{% block content %}
+	{% if user.is_authenticated %}
+		
+		<div class="row">
+			<div class="col-lg-7" style="position: absolute; left:50%; margin-left: -350px; display: inline-block; background-color: white; border-style: solid;">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="text-center" >Lista de Pacientes</h4>
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table table-striped table-bordered table-hover" id="dataTables-example">
+								<thead>
+									<tr>
+										<th>Nombre</th>
+										<th>Correo</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for u in guest_lista %}
+										<tr class="gradeA">
+											<td><a href="{% url 'polls:restespecifico' u.nombre u.email %}">{{ u.nombre }}</a></td>
+											<td>{{ u.email }}</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% else %}
+		<h1 class ="text-center">Porfavor inicie sesion para poder acceder a este apartado</h1>
+	{% endif %}
+{% endblock %}
+
+{% block futer %}
+	<script src="{% static 'plugins/jquery-2.0.3.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'plugins/modernizr-2.6.2-respond-1.1.0.min.js' %}"></script>
+    <!-- END GLOBAL SCRIPTS -->
+        <!-- PAGE LEVEL SCRIPTS -->
+    <script src="{% static 'plugins/dataTables/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'plugins/dataTables/dataTables.bootstrap.js' %}"></script>
+     <script>
+         $(document).ready(function () {
+             $('#dataTables-example').dataTable();
+         });
+    </script>
+{% endblock %}

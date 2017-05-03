@@ -1,0 +1,47 @@
+{% extends "apps/base.html" %}
+{% block saludo %}
+	<h2 style="font-weight: bold;">
+		
+				Editar Perfil de: {{ user.first_name }} {{ user.last_name }}<br>
+
+	</h2>
+	<h4 style="font-weight: bold;">
+		<P align="left" >
+			En esta seccion podrá editar su perfil
+		</P>
+	</h4>
+{% endblock %}
+
+{% block content %}
+	<div class="col-lg-7" style="position: absolute; left:50%; margin-left: -350px; display: inline-block; background-color: white; border-style: solid;">
+		<div >
+			<h3>Mi Informacion</h3>
+			<hr style="border-style: solid; border-width: 1px; border-color: gray;">
+			<form action="." method="POST" class="padding" enctype="multipart/form-data">
+				{% csrf_token %}
+				<!--{{ noodle_form.as_p }}-->
+				<div class="row">
+					<h3 class="mgbt-xs-1 mgtp-1 font-semibold">
+						<i class="fa fa-user"></i>
+						Personal
+					</h3>
+					<div class="col-sm-7 mgbt-xs-20">
+							{{ noodle_form.as_p}}
+					</div>
+				</div>
+				<hr style="border-style: solid; border-width: 1px; border-color: gray;">
+				<div>
+					<h3 class="mgbt-xs-1 mgtp-1 font-semibold">
+						<i class="fa fa-user"></i>
+						Contacto
+					</h3>
+					{{ formset.management_form}}
+					{{ formset.as_p }}
+				</div>
+
+				
+				<button type="submit" class="btn text-muted text-center btn-danger">Hecho</button>
+			</form>
+		</div>
+	</div>
+{% endblock %}

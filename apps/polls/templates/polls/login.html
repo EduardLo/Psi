@@ -1,0 +1,21 @@
+{% extends "apps/base.html" %}
+{% block title %}
+	LOG IN
+{% endblock %}
+
+{% block content %}
+	{% if user.is_authenticated %}
+
+	{% else %}
+		<form action="." method="POST">
+			<p>Por favor logueate</p>
+			{% csrf_token %}
+			<label for="idUsername">Username</label>
+			<input class="form-control" name="username" type="text" id="idUsername" placeholder="USUARIO">
+			<label for="idpass">Password</label>
+			<input class="form-control" type="password" name="password" id="idpass" placeholder=" CONTRASEÑA">
+			<br><br>
+			<input type="submit" name="Entrar" value="Log In">
+		</form>
+	{% endif %}
+{% endblock %}

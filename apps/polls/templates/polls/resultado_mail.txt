@@ -1,0 +1,24 @@
+{% load i18n %}
+{% url 'registration_activate' activation_key as activation_key_url%}
+{% blocktrans with sitename=site.name siteurl=site.domain %}
+
+Estimado {{ usuario }}:
+Gracias por consultar.
+
+La finalidad de este cuestionario es hacer una aproximacion diagnostica a los efectos de determinar si Ud. pudiera estar actualmente ansioso. No reemplazan absolutamente una entrevista con el médico especialista.
+
+TEST: {{ prueba }}
+RESULTADO: {{ resultado }}
+Nombre: {{ usuario }}
+Teléfono: {{ telefono }}
+Correo: {{ correo }}
+Dirección: {{ direccion }}
+Fecha: {{ date }}
+
+
+
+Atentamente,
+Psi. Ernesto Gonzales Avila.
+
+{{ sitename }} Management
+{% endblocktrans %}

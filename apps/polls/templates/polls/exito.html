@@ -1,0 +1,22 @@
+{% extends "apps/base.html" %}
+{% block saludo %}
+		<h4>
+			<P align="left" style="font-weight: bold;">
+				Gracias por tu participacion.<br>
+			</P>
+			<
+		</h4>
+{% endblock %}
+{% block content %}
+	<div style="position: absolute; left:50%; margin-left: -350px; display: inline-block";>
+		<p> 
+			Estimado <b>{{ usuario }}</b> se ha enviado un correo a la direccion
+			<b style="font-weight: bold;">{{ correo }}</b> la cual proporcionaste.<br>
+		</p>
+		<div class="row">
+			<p>
+				<a href="{% url 'polls:index' %}" class="btn btn-success" role="button">Volver</a>
+			</p>
+		</div>
+	</div>
+{% endblock %}

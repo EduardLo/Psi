@@ -1,0 +1,27 @@
+{% extends "apps/base.html" %}
+{% block title %} Lista de Usuarios {% endblock %}
+{% block content %}
+	{% if user.is_authenticated %}
+		<h1 class="text-center" >Lista de Usuarios</h1>
+		<div>
+			<table>
+				<thead>
+					<th>User Name</th>
+					<th>Nombre</th>
+					<th>Correo</th>
+				</thead>
+				<tbody>
+					{% for u in usr_list %}
+						<tr>
+							<td>{{ u. }}</td>
+							<td>{{ u.first_name }}</td>
+							<td>{{ u.email }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	{% else %}
+		<h1 class ="text-center">Porfavor inicie sesion para poder acceder a este apartado</h1>
+	{% endif %}
+{% endblock %}

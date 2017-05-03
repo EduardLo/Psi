@@ -1,0 +1,15 @@
+{% extends "apps/base.html" %}
+{% load static %}
+{% block content %} 
+	<form action="" metho="POST" id="idInvitado">
+		{% csrf_token %}
+		<input type="hidden" name="testId" value="{{test_id}}">
+		<input type="hidden" name="totalFinal" value="{{total}}">
+		<input type="hidden" name="dateFinal" value="{{data}}">
+		<div class="container">
+			{{form}}
+		</div>
+
+	</form>
+	<button type="submit" form="idInvitado">Aceptar</button>
+{% endblock %}
