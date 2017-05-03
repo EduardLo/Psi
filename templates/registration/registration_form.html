@@ -1,0 +1,51 @@
+{% extends "apps/base_login.html" %}
+{% load i18n %}
+
+
+
+{% block title %}{% trans "Register for an account" %}{% endblock %}
+{% block register %}
+
+{% url 'auth_login' as auth_login_url %}
+<div style="position: absolute; left:50%; margin-left: -100px; display: inline-block;">
+<form action="" class="form-signin" method="POST">
+	<p class="text-muted text-center btn-block btn btn-primary btn-rect">
+	        	Please Fill Details To Register
+	</p>
+	{% csrf_token %}
+
+
+        <!--{{ form }}-->
+        <table>
+			<tr>
+			    <td>{% trans form.username.label_tag %}</td>
+			    <td>{{ form.username }}</td>
+			</tr>
+			<tr>
+			    <td>{% trans form.email.label_tag %}</td>
+			    <td>{{ form.email }}</td>
+			</tr>
+			<tr>
+			    <td>{% trans form.password1.label_tag %}</td>
+			    <td>{{ form.password1 }}</td>
+			</tr>
+			<tr>
+			    <td>{% trans form.password2.label_tag %}</td>
+			    <td>{{ form.password2 }}</td>
+			</tr>
+		</table>
+	<table>
+        <tr>
+        	<td></td>
+
+        	<td><input class="btn text-muted text-center btn-success" type="submit" value="{% trans 'Send activation email' %}" /></td>
+        </tr>
+	</table>    
+</form>
+</div>
+{% endblock %}
+
+{% block listLinks %}
+	<li><a href="{{ auth_pwd_reset_url }}">Forgot</a> your password?
+    <li><a href="{% url 'auth_login' %}">Login</a>?
+{% endblock %}

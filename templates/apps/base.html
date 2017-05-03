@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+		<head>
+			{% load bootstrap3 %}
+			{% load staticfiles %}
+			<meta charset="UTF-8" />
+			<title>IDB </title>
+			{% block head %}
+			{% endblock %}
+			<script type="text/javascript" src="{% static 'js/jquery-3.1.1.js'  %}"></script>
+			<script type="text/javascript" src="{% static 'js/jquery.leanModal.min.js'  %}"></script>
+			<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+			<link type="text/css" rel="stylesheet" href="{% static 'css/style.css'  %}" />
+			<link href="{% static 'plugins/dataTables/dataTables.bootstrap.css' %}" rel="stylesheet" />
+			<script type="text/javscript" src = "{% static '/js/jquery.leanModal.min.js'  %}"></script>
+
+
+
+			<!--link rel="stylesheet" hrfe = "http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"-->
+			<link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<link href="{% static 'assets/css/bootstrap.css' %}" rel="stylesheet" />
+		    <!-- FONTAWESOME STYLES-->
+		    <link href="{% static 'assets/css/font-awesome.css' %}" rel="stylesheet" />
+		       <!--CUSTOM BASIC STYLES-->
+		    <link href="{% static 'assets/css/basic.css' %}" rel="stylesheet" />
+		    <!--CUSTOM MAIN STYLES-->
+		    <link href="{% static 'assets/css/custom.css' %}" rel="stylesheet" />
+		    <!-- GOOGLE FONTS-->
+		    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+			
+			<script type="text/javascript" src= "{% static 'js/myscript.js' %}"></script>
+		</head>
+
+		<body style="background-color: #aedd94;">
+			<nav role ="navigation" class="navbar navbar-inverse navbar-fixed-top">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+					</div>
+					<div id="navbarCollapse" class="collapse navbar-collapse">
+						
+						<ul class="nav navbar-nav">
+							
+							{% if user.is_authenticated %}
+								
+								<li class="active" style="font-size: 30px; margin-top: 10px; color: white;">|</li>
+								<li class="active"><a href="{% url 'polls:listaguests' %}">Pacientes</a></li>
+								<li class="active" style="font-size: 30px; margin-top: 10px; color: white;">|</li>
+								<li class="active"><a href="{% url 'polls:index' %}">Test</a></li>		
+							{% else %}
+								<li class="active"><a href="{% url 'polls:index' %}">Inicio</a></li>
+							{% endif %}
+						</ul>
+
+						<ul class="nav navbar-nav navbar-right">
+							{% if user.is_authenticated %}
+								{% if user.is_superuser %}
+									<li class="active"><a href="/admin/">Admin</a></li>
+								{% endif %}
+								<li class="active"><a href="{% url 'usuarios:viewProfile' user.id %}">Perfil</a></li>
+								<li class="active" style="font-size: 30px; margin-top: 10px; color: white;">|</li>
+								<li class="active"><a href="/accounts/logout">Logout</a></li>
+							{% else %}
+								<li class="active"><a href="/accounts/login">Login</a></li>
+							{% endif %} 							
+						</ul>
+
+					</div>
+				</div>
+			</nav>
+			<div class="container"> 
+			<div class="row">
+				<div>
+					<div class="row" style="float: left; padding-left: 100px; padding-top: 70px; margin: auto;">
+							<img src="{% static 'img/logo.png' %}">
+						<div style="float: right; padding-left: 80px" align="center">	
+								{% block saludo %}
+								{% endblock %}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div >
+				<section >
+					{% block content %}
+					{% endblock %}
+				</section>
+			</div>
+			</div>
+		</body>
+
+		<footer>				
+				{% block futer %}
+				{% endblock %}
+
+				<script type="text/javascript">
+					$(function() {
+					    //----- OPEN
+					    $('[data-popup-open]').on('click', function(e)  {
+					        var targeted_popup_class = jQuery(this).attr('data-popup-open');
+					        $('[data-popup="' + targeted_popup_class + '"]').fadeIn(350);
+					 
+					        e.preventDefault();
+					    });
+					 
+					    //----- CLOSE
+					    $('[data-popup-close]').on('click', function(e)  {
+					        var targeted_popup_class = jQuery(this).attr('data-popup-close');
+					        $('[data-popup="' + targeted_popup_class + '"]').fadeOut(350);
+					 
+					        e.preventDefault();
+					    });
+					});
+				</script>
+				<script src="{% static 'assets/js/jquery-1.10.2.js' %}"></script>
+			    <!-- BOOTSTRAP SCRIPTS -->
+			    <script src="{% static 'assets/js/bootstrap.js' %}"></script>
+			    <!-- METISMENU SCRIPTS -->
+			    <script src="{% static 'assets/js/jquery.metisMenu.js' %}"></script>
+			       <!-- CUSTOM SCRIPTS -->
+			    <script src="{% static 'assets/js/custom.js' %}"></script> 	    
+		</footer>
+</html>

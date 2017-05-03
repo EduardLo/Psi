@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="en"><!--<![endif]-->
+{% load staticfiles %}
+{% load i18n %}
+<!-- BEGIN HEAD -->
+  <head>
+      <meta charset="UTF-8" />
+      <title> Login Page</title>
+      <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    	<meta content="" name="description" />
+    	<meta content="" name="author" />
+
+        <!-- GLOBAL STYLES --> 
+         <!-- PAGE LEVEL STYLES -->
+      <link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.css' %}" />
+      <link rel="stylesheet" href="{% static 'assets/css/login.css' %}" />
+      <link rel="stylesheet" href="{% static 'assets/plugins/magic/magic.css' %}" />
+         <!-- END PAGE LEVEL STYLES -->
+  </head>
+  <body>
+
+
+        {% url 'auth_password_reset' as auth_pwd_reset_url %}
+        {% url 'registration_register' as register_url %}
+     
+     <!-- PAGE CONTENT --> 
+      <div class="container">
+      <div class="text-center">
+          <!--aqui va el logo-->
+         <a href="{% url 'polls:index' %}"> <img src="" id="logoimg" alt=" Logo" /></a>
+      </div>
+      <div class="tab-content">
+          <div id="login" class="tab-pane active">  
+                    {% if alert %}
+                      {{alert}}
+                    {% endif %}
+                  
+                  <!--input type="text" placeholder="Username" class="form-control" /-->
+                  {% block content %}
+                  {% endblock %}
+                  <!--input type="password" placeholder="Password" class="form-control" /-->
+          </div>
+          <div id="forgot" class="tab-pane active">
+              {% block contentReset %}
+              {% endblock %}
+          </div>
+          <div id="signup" class="tab-pane active">
+                    {% block register %}
+                    {% endblock %}
+          </div>
+      </div>
+      <div class="text-center">
+          <ul class="list-inline">
+              
+              {% block listLinks %}
+              {% endblock %}
+              <!--li><a class="text-muted" href="#login" data-toggle="tab">Login</a></li>
+              <li><a class="text-muted" href="#forgot" data-toggle="tab">Forgot Password</a></li>
+              <li><a class="text-muted" href="{{ register_url }}" data-toggle="tab">Signup</a></li-->
+          </ul>
+      </div>
+  	  <!--END PAGE CONTENT -->     
+  	      
+        <!-- PAGE LEVEL SCRIPTS -->
+        <script src="{% static 'assets/plugins/jquery-2.0.3.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'assets/js/login.js' %}"></script>
+        <!--END PAGE LEVEL SCRIPTS -->
+
+  </body>
+    <!-- END BODY -->
+</html>

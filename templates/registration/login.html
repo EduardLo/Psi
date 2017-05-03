@@ -1,0 +1,42 @@
+{% extends "apps/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Login" %}{% endblock %}
+
+{% block content %}
+{% url 'auth_password_reset' as auth_pwd_reset_url %}
+{% url 'registration_register' as register_url%}
+
+
+{% if form.errors %}
+{% block saludo %}
+	<h2>
+		SISTEMA WEB "TEST DE ANSIEDAD EN ADULTOS"
+	</h2>
+{% endblock %}
+<p>{% blocktrans %}Nombre de usuario y/o contraseña incorrectos. Intente de nuevo.{% endblocktrans %}</p>
+{% endif %}
+<div style="position: absolute; left:50%; margin-left: -100px; display: inline-block;">
+<form  class="form-signin" method="POST" action="{% url 'auth_login' %}">
+
+	<p class="text-muted text-center btn-block btn btn-primary btn-rect">
+	 	Enter your username and password
+	</p>
+	{% csrf_token %}
+	<table>
+		<tr>
+		    <td>{% trans form.username.label_tag %}</td>
+		    <td>{{ form.username }}  </td>
+		</tr>
+		<tr>
+		    <td>{% trans form.password.label_tag %}</td>
+		    <td>{{ form.password }}</td>
+		</tr>
+	</table>
+
+	<button class="btn text-muted text-center btn-danger" type="submit" value="{% trans 'login' %}">Login</button>
+
+	<input type="hidden" name="next" value="{{ next }}" />
+</form>
+	<li><a href="{{ auth_pwd_reset_url }}">Cambiar</a> contraseña?
+</div>
+{% endblock %}
